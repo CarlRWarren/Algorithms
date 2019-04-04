@@ -11,7 +11,7 @@ namespace ThumbDirectory
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(Phone("/+1-541-754-3010 156 Alphand_St. <J Steeve>\n", "1-541-754-3010"));
+            Console.WriteLine(Phone("<Arthur Clarke> San Antonio $+1-121-504-8974 TT-45120\n", "+1-121-504-8974"));
         }
         public static string Phone(string strng, string num)
         {
@@ -19,37 +19,43 @@ namespace ThumbDirectory
             string[] lines = strng.Split('\n');
             foreach(string line in lines)
             {
-                Console.WriteLine(line);
-                Regex numReg = new Regex($"{num}");
-                Console.WriteLine(numReg);
-
-                MatchCollection matches = numReg.Matches(line);
-                if(matches.Count != 0)
+                bool found = false;
+                if(line != "")
                 {
-                    Regex nameReg = new Regex(@"<[\w\s]+>");
-                    MatchCollection nameMatches = nameReg.Matches(line);
-                    if (nameMatches.Count > 1)
+                    Regex numReg = new Regex($"\\{num}");
+                    MatchCollection matches = numReg.Matches(line);
+                    if(matches.Count != 0)
                     {
-                        result = "Error => Too many people: nb";
+                        found = true;
+                        Regex nameReg = new Regex(@"<[\w\s]+>");
+                        MatchCollection nameMatches = nameReg.Matches(line);
+                        if (nameMatches.Count > 1)
+                        {
+                            result = "Error => Too many people: nb";
+                        }
+                        else
+                        {
+                            string name = "";
+                            name = nameMatches[0].Groups[0].Value;
+                            string address = line.Replace(num, "");
+                            address = address.Replace(name, "");
+                            address = address.Trim(new Char[] { '$', '/', ':', ';'});
+                            //Regex addReg = new Regex(@"[\w\d\s]+");
+                            //MatchCollection addMatches = addReg.Matches(address);
+                            name = name.Trim(new Char[] { '<', '>' });
+                            result = $"Phone => {num}, Name => {name}, Address => {address.Trim()}";
+                        }
                     }
                     else
                     {
-                        string name = "";
-                        foreach(var mc in nameMatches)
-                        {
-                            //mc[]
-                        }
-                        result = $"Phone => {num}, Name => {name}";
+                        result = "Error => Not Found: nb";
                     }
-
                 }
-                else
+                if (found)
                 {
-                    result = "Error => Not Found: nb";
+                    break;
                 }
             }
-            //MatchCollection matches = nameReg.Matches(testStr);
-            //Console.WriteLine(matches.Count);
             return result;
         }
     }
