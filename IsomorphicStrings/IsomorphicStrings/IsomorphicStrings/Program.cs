@@ -19,8 +19,9 @@ namespace IsomorphicStrings
         static void ReadFile()
         {
             Console.WriteLine("What is the file path?");
-            string filePath = Console.ReadLine();
-            string[] wordsFromFile = System.IO.File.ReadAllLines(@filePath);
+            //string filePath = Console.ReadLine();
+            string filePath = @"C:\Users\Carl\OneDrive - Neumont University\q7\Algorithms\IsomorphicStrings\IsomorphInput1.txt";
+            string[] wordsFromFile = System.IO.File.ReadAllLines(filePath);
             DetermineExacts(wordsFromFile);
             DetermineLoose(wordsFromFile);
             Print();
@@ -32,19 +33,25 @@ namespace IsomorphicStrings
             Console.WriteLine("Exact Isomorphs");
             output.Add("Exact Isomorphs");
             string line = "";
-            foreach(string key in exactIsomorphs.Keys)
+            var exaKeys = exactIsomorphs.Keys.ToList();
+            exaKeys.Sort();
+                //sort on keys
+                //look up sorting dictionary
+            foreach (string key in exaKeys)
             {
                 line = "";
-                line += key + " ";
-                for (int i=0; i<exactIsomorphs[key].Count(); i++)
+                line += key + ": ";
+                var words = exactIsomorphs[key].ToList();
+                words.Sort();
+                for (int i=0; i<words.Count(); i++)
                 {
-                    if(i!= exactIsomorphs[key].Count() - 1)
+                    if(i!= words.Count() - 1)
                     {
-                        line += exactIsomorphs[key][i] + " ";
+                        line += words[i] + " ";
                     }
                     else
                     {
-                        line += exactIsomorphs[key][i];
+                        line += words[i];
                     }
                 }
                 Console.Write(line);
@@ -55,19 +62,23 @@ namespace IsomorphicStrings
             Console.WriteLine();
             Console.WriteLine("Loose Isomorphs");
             output.Add("Loose Isomorphs");
-            foreach (string key in looseIsomorphs.Keys)
+            var looKeys = looseIsomorphs.Keys.ToList();
+            looKeys.Sort();
+            foreach (string key in looKeys)
             {
                 line = "";
-                line += key + " ";
-                for (int i = 0; i < looseIsomorphs[key].Count(); i++)
+                line += key + ": ";
+                var words = looseIsomorphs[key].ToList();
+                words.Sort();
+                for (int i = 0; i < words.Count(); i++)
                 {
-                    if (i != looseIsomorphs[key].Count() - 1)
+                    if (i != words.Count() - 1)
                     {
-                        line+=looseIsomorphs[key][i] + " ";
+                        line += words[i] + " ";
                     }
                     else
                     {
-                        line+=looseIsomorphs[key][i];
+                        line += words[i];
                     }
                 }
                 Console.Write(line);
@@ -100,7 +111,7 @@ namespace IsomorphicStrings
             Dictionary<string, List<string>> keyToWords = new Dictionary<string, List<string>>();
             foreach (string word in words)
             {
-                string key = DetermineExactKey(word) + ":";
+                string key = DetermineExactKey(word);
                 if (!exactKeys.Contains(key))
                 {
                     exactKeys.Add(key);
@@ -167,7 +178,7 @@ namespace IsomorphicStrings
             Dictionary<string, List<string>> keyToWords = new Dictionary<string, List<string>>();
             foreach (string word in words)
             {
-                string key = DetermineLooseKey(word) + ":";
+                string key = DetermineLooseKey(word);
                 if (!looseKeys.Contains(key))
                 {
                     looseKeys.Add(key);

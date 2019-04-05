@@ -12,14 +12,14 @@ namespace sortedArraysBs
         {
             Console.WriteLine(DateTime.Now);
             Random rnd = new Random();
-            int[] one = new int[250000];
+            int[] one = new int[25000000];
             for(int i = 0; i < one.Length; i++)
             {
                 int num = rnd.Next(100);
                 one[i] = num;
             }
             Array.Sort(one);
-            int[] two = new int[250000];
+            int[] two = new int[25000000];
             for (int i = 0; i < two.Length; i++)
             {
                 int num = rnd.Next(100);
