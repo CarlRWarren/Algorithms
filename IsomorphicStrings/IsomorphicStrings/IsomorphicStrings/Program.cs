@@ -19,9 +19,9 @@ namespace IsomorphicStrings
         static void ReadFile()
         {
             Console.WriteLine("What is the file path?");
-            //string filePath = Console.ReadLine();
-            string filePath = @"C:\Users\Carl\OneDrive - Neumont University\q7\Algorithms\IsomorphicStrings\IsomorphInput1.txt";
-            string[] wordsFromFile = System.IO.File.ReadAllLines(filePath);
+            string filePath = Console.ReadLine();
+            //string filePath = @"C:\Users\Carl\OneDrive - Neumont University\q7\Algorithms\IsomorphicStrings\IsomorphInput1.txt";
+            string[] wordsFromFile = System.IO.File.ReadAllLines(@filePath);
             DetermineExacts(wordsFromFile);
             DetermineLoose(wordsFromFile);
             Print();
