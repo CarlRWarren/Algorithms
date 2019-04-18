@@ -151,5 +151,63 @@ namespace UnitTestProject1
 
             Assert.AreEqual(expected, actual);
         }
+        [TestMethod]
+        public void QuickSortOnRandomArrayOf100()
+        {
+            int[] arr = CloneRand;
+            Sorter<int>.QuickSort(arr, 0, arr.Length - 1);
+            string actual = ArrayToString(arr);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuickSortOnAscendingArrayOf100()
+        {
+            int[] arr = CloneAsc;
+            Sorter<int>.QuickSort(arr, 0, arr.Length - 1);
+            string actual = ArrayToString(arr);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void QuickSortOnDescendingArrayOf100()
+        {
+            int[] arr = CloneDesc;
+            Sorter<int>.QuickSort(arr, 0, arr.Length - 1);
+            string actual = ArrayToString(arr);
+
+            Assert.AreEqual(expected, actual);
+        }
+        [TestMethod]
+        public void MergeSortOnRandomArrayOf100()
+        {
+            int[] arr = CloneRand;
+            Sorter<int>.MergeSort(arr, 0, arr.Length-1);
+            string actual = ArrayToString(arr);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void MergeSortOnAscendingArrayOf100()
+        {
+            int[] arr = CloneAsc;
+            Sorter<int>.MergeSort(arr, 0 ,arr.Length-1);
+            string actual = ArrayToString(arr);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void MergeSortOnDescendingArrayOf100()
+        {
+            int[] arr = CloneDesc;
+            Sorter<int>.MergeSort(arr, 0, arr.Length-1);
+            string actual = ArrayToString(arr);
+
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

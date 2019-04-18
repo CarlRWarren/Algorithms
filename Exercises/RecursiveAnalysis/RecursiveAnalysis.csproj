@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{543DB708-B349-4760-8465-8D997E9E1C49}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>SortingLibrary</RootNamespace>
-    <AssemblyName>SortingLibrary</AssemblyName>
+    <ProjectGuid>{CA85CDD1-CE14-4D3A-A239-F4991565966A}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>RecursiveAnalysis</RootNamespace>
+    <AssemblyName>RecursiveAnalysis</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -32,9 +32,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,8 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sorter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

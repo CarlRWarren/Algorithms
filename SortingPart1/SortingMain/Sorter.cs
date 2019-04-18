@@ -60,5 +60,82 @@ namespace SortingLibrary
                 arr[i] = temp;
             }
         }
+        public static void MergeSort(T[] arr, int start, int end)
+        {
+            if (start < end)
+            {
+                int middle = (start + end) / 2;
+
+                MergeSort(arr, start, middle);
+                MergeSort(arr, middle + 1, end);
+
+                Merge(arr, start, middle, end);
+            }
+        }
+
+        private static void Merge(T[] arr, int start, int mid, int end)
+        {
+            T[] leftArray = new T[mid - start + 1];
+            T[] rightArray = new T[end - mid];
+
+            Array.Copy(arr, start, leftArray, 0, mid - start + 1);
+            Array.Copy(arr, mid + 1, rightArray, 0, end - mid);
+
+            int i = 0;
+            int j = 0;
+            for (int k = start; k < end + 1; k++)
+            {
+                if (i == leftArray.Length)
+                {
+                    arr[k] = rightArray[j];
+                    j++;
+                }
+                else if (j == rightArray.Length)
+                {
+                    arr[k] = leftArray[i];
+                    i++;
+                }
+                else if (leftArray[i].CompareTo(rightArray[j])==0|| leftArray[i].CompareTo(rightArray[j]) == -1)
+                {
+                    arr[k] = leftArray[i];
+                    i++;
+                }
+                else
+                {
+                    arr[k] = rightArray[j];
+                    j++;
+                }
+            }
+        }
+
+        public static void QuickSort(T[] arr, int left, int right)
+        {
+            if (left < right)
+            {
+                int pivot = Partition(arr, left, right);
+                if (pivot > 1) QuickSort(arr, left, pivot - 1);
+                if (pivot + 1 < right) QuickSort(arr, pivot + 1, right);
+            }
+        }
+        static public int Partition(T[] numbers, int left, int right)
+        {
+            T pivot = numbers[left];
+            while (true)
+            {
+                while (numbers[left].CompareTo(pivot)==-1) left++;
+                while (numbers[right].CompareTo(pivot)==1) right--;
+
+                if (left < right)
+                {
+                    T temp = numbers[right];
+                    numbers[right] = numbers[left];
+                    numbers[left] = temp;
+                }
+                else
+                {
+                    return right;
+                }
+            }
+        }
     }
 }
