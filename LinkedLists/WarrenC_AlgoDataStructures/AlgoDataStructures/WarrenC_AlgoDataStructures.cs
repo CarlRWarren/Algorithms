@@ -10,7 +10,6 @@ namespace AlgoDataStructures
     {
         Node head;
         public int Count { get; set; } = 0;
-        List<Node> nodes = new List<Node>();        
 
         public class Node
         {
@@ -21,56 +20,69 @@ namespace AlgoDataStructures
 
         public void Add(T val)
         {
-            Node new_node = new Node(val);
             Count++;
-            if (Count == 1)
+            Node new_node = new Node(val);
+            if (head == null)
             {
-                head = new_node;
+                head = new_node;                
             }
             else
             {
-                nodes[Count - 2].next = new_node;
+                Node temp = head;
+                while (temp.next != null)
+                {
+                    temp = temp.next;
+                }
+            
+                temp.next = new_node;
             }
-            nodes.Add(new_node);
         }
 
         public void Insert(T val, int index)
         {
-            if (index >= 0 && index < nodes.Count)
+            if (index >= 0 && index < Count)
             {
                 Count++;
-                Node prevNode = nodes[index];
-                Node node = new Node(val);
-                Node tail = nodes[nodes.Count-1];
-                for(int i = index; i < Count; i++)
+                Node new_node = new Node(val);
+                Node toBeBumped = head;
+                Node connect=head;
+                if (index != 0)
                 {
-                    nodes[i] = node;
-                    node.next = prevNode;
-                    node = prevNode;
-                    if(i< Count - 2)
+                    for (int i = 0; i <= index; i++)
                     {
-                        prevNode = nodes[i + 1];
+                        if (i == index - 1)
+                        {
+                            connect = toBeBumped;
+                        }
+                        toBeBumped = toBeBumped.next;
                     }
-                    else
-                    {
-                        nodes.Add(tail);
-                        nodes[Count - 1].next = null;
-                    }
+                    connect.next = new_node;
                 }
+                else
+                {
+                    head = new_node;
+                }
+                
+                new_node.next = toBeBumped;
             }
             else
             {
                 throw new IndexOutOfRangeException("Not a valid index");
             }
-            
+
         }
 
         public T Get(int index)
         {
-            T value;
-            if (index >= 0 && index < nodes.Count)
+            T value = default(T);
+            if (index >= 0 && index < Count)
             {
-                value = nodes[index].data;
+                Node node = head;
+                for (int i = 0; i <= index; i++)
+                {
+                    value = node.data;
+                    node = node.next;
+                }
             }
             else
             {
@@ -81,20 +93,31 @@ namespace AlgoDataStructures
 
         public T RemoveAt(int index)
         {
-            T value;
-            if (index >= 0 && index < nodes.Count)
+            T value = default(T);
+            if (index >= 0 && index < Count)
             {
-                value = nodes[index].data;
-                nodes.RemoveAt(index);
+
                 Count--;
-                if (index > 0)
+                Node node = head;
+                Node connect = head;
+                for (int i = 0; i <= index; i++)
                 {
-                    nodes[index - 1].next = (index + 1 < Count) ? nodes[index + 1] : null;
+                    value = node.data;
+                    if (i == index - 1 && index>0)
+                    {
+                        connect = node;
+                    }
+                    node = node.next;
+                }
+                if (index != 0)
+                {
+                    connect.next = node;
                 }
                 else
                 {
-                    head.next = (index + 1 < Count) ? nodes[index + 1] : null;
+                    head = node;
                 }
+                
             }
             else
             {
@@ -105,57 +128,61 @@ namespace AlgoDataStructures
 
         public T Remove()
         {
-            T value = nodes[0].data;
-            nodes.RemoveAt(0);
-            Count--;
-            if (Count > 0)
+            T value = head.data;
+            if (Count > 1)
             {
-                head.next = nodes[0];
+                head = head.next;
             }
             else
             {
-                head.next = null;
+                head = null;
             }
+            Count--;
+
             return value;
         }
 
         public T RemoveLast()
         {
             T value = default(T);
-            if (Count != 0)
-            {
-                value= nodes[Count-1].data;
-                nodes.RemoveAt(Count-1);
+            if (Count > 1)
+            {               
+                Node temp = head;
+                while (temp.next != null)
+                {
+                    temp = temp.next;
+                }
+                value = temp.data;
+                temp = null;
                 Count--;
-                if (Count > 1)
-                {
-                    nodes[Count - 1].next = null;
-                }
-                else
-                {
-                    head.next = null;
-                }
+            }
+            else
+            {
+                head = null;
             }
             return value;
         }
 
         public void Clear()
         {
-            nodes.Clear();
             head = null;
             Count = 0;
         }
 
         public int Search(T val)
         {
-            int index=-1;
-            for (int i=0; i < Count; i++)
+            int index = -1;
+            Node node = head;
+            int i = 0;
+            while (node.next!=null)
             {
-                if (nodes[i].data.Equals(val))
+                if (node.data.Equals(val))
                 {
                     index = i;
                     break;
                 }
+                node = node.next;
+                i++;
             }
             return index;
         }
@@ -163,12 +190,232 @@ namespace AlgoDataStructures
         public override string ToString()
         {
             string str = "";
-            for(int i = 0; i < nodes.Count; i++)
+            if (Count > 0)
             {
-                str+=nodes[i].ToString();
+                Node temp = head;
+                while (temp.next != null)
+                {
+                    str += temp.data;
+                    temp = temp.next;
+                }
+                str += temp.data;
             }
+            
             return str;
         }
     }
+    public class DoubleLinkedList<T>
+    {
+        Node head;
+        public int Count { get; set; } = 0;
 
+        public class Node
+        {
+            public T data;
+            public Node next;
+            public Node prev;
+            public Node(T d) { data = d; next = null; prev = null; }
+        }
+
+        public void Add(T val)
+        {
+            Count++;
+            Node new_node = new Node(val);
+            if (head == null)
+            {
+                new_node.prev = null;
+                head = new_node;
+            }
+            else
+            {
+                Node temp = head;
+                while (temp.next != null)
+                {
+                    temp = temp.next;
+                }
+
+                temp.next = new_node;
+                new_node.prev = temp;
+            }
+        }
+
+        public void Insert(T val, int index)
+        {
+            if (index >= 0 && index < Count)
+            {
+                Count++;
+                Node new_node = new Node(val);
+                Node toBeBumped = head;
+                Node connect = head;
+                if (index != 0)
+                {
+                    for (int i = 0; i <= index; i++)
+                    {
+                        if (i == index - 1)
+                        {
+                            connect = toBeBumped;
+                        }
+                        toBeBumped = toBeBumped.next;
+                    }
+                    connect.next = new_node;
+                    new_node.prev = connect;
+                }
+                else
+                {
+                    new_node.prev = null;
+                    head = new_node;
+                }
+
+                new_node.next = toBeBumped;
+                toBeBumped.prev = new_node;
+            }
+            else
+            {
+                throw new IndexOutOfRangeException("Not a valid index");
+            }
+
+        }
+
+        public T Get(int index)
+        {
+            T value = default(T);
+            if (index >= 0 && index < Count)
+            {
+                Node node = head;
+                for (int i = 0; i <= index; i++)
+                {
+                    value = node.data;
+                    node = node.next;
+                }
+            }
+            else
+            {
+                throw new IndexOutOfRangeException("Not a valid index");
+            }
+            return value;
+        }
+
+        public T RemoveAt(int index)
+        {
+            T value = default(T);
+            if (index >= 0 && index < Count)
+            {
+
+                Count--;
+                Node node = head;
+                Node connect = head;
+                for (int i = 0; i <= index; i++)
+                {
+                    value = node.data;
+                    if (i == index - 1 && index > 0)
+                    {
+                        connect = node;
+                    }
+                    node = node.next;
+                }
+                if (index != 0)
+                {
+                    connect.next = node;
+                    node.prev = connect;
+                }
+                else
+                {
+                    head = node;
+                }
+
+            }
+            else
+            {
+                throw new IndexOutOfRangeException("Not a valid index");
+            }
+            return value;
+        }
+
+        public T Remove()
+        {
+            T value = head.data;
+            if (Count > 1)
+            {
+                head = head.next;
+                head.prev = null;
+            }
+            else
+            {
+                head = null;
+            }
+            Count--;
+
+            return value;
+        }
+
+        public T RemoveLast()
+        {
+            T value = default(T);
+            int i = 0;
+            if (Count > 1)
+            {
+                Node temp = head;
+                Node beforeLast=head;
+                while (temp.next != null)
+                {
+                    if (i == Count - 1)
+                    {
+                        beforeLast = temp;
+                    }
+                    temp = temp.next;
+                    i++;
+                }
+                beforeLast.next = null;
+                value = temp.data;
+                temp = null;
+                Count--;
+            }
+            else
+            {
+                head = null;
+            }
+            return value;
+        }
+
+        public void Clear()
+        {
+            head = null;
+            Count = 0;
+        }
+
+        public int Search(T val)
+        {
+            int index = -1;
+            Node node = head;
+            int i = 0;
+            while (node.next != null)
+            {
+                if (node.data.Equals(val))
+                {
+                    index = i;
+                    break;
+                }
+                node = node.next;
+                i++;
+            }
+            return index;
+        }
+
+        public override string ToString()
+        {
+            string str = "";
+            if (Count > 0)
+            {
+                Node temp = head;
+                while (temp.next != null)
+                {
+                    str += temp.data;
+                    temp = temp.next;
+                }
+                str += temp.data;
+            }
+
+            return str;
+        }
+    }
 }
