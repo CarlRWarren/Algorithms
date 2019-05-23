@@ -11,15 +11,23 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            BinarySearchTree<int> tree = new BinarySearchTree<int>();
-            Console.WriteLine("Created");
-            tree.Add(0);
-            Console.WriteLine("Added root:");
+            AVLTree<int> tree = new AVLTree<int>();
+            tree.Add(4);
+            Console.WriteLine("Added 4");
             tree.Add(2);
-            Console.WriteLine("Added right:");
+            Console.WriteLine("Added 2");
             tree.Add(1);
+            Console.WriteLine("Added 1");
+            tree.Add(5);
+            Console.WriteLine("Added 5");
             tree.Add(2);
+            Console.WriteLine("Added 2");
             Console.WriteLine(tree.Count);
+            int[] stuff = tree.ToArray();
+            for(int i= 0; i < stuff.Length;i++)
+            {
+                Console.Write(stuff[i]+" ");
+            }
         }
     }
 }
