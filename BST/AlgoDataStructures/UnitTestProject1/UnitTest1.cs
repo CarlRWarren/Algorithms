@@ -515,7 +515,7 @@ namespace UnitTestProject1
             public void CountIsCorrectAfterAddRemoveAdd()
             {
                 AVLTree<int> avl = new AVLTree<int>();
-                int expected = 13;
+                int expected = 12;
 
                 avl.Add(24);
                 avl.Add(10);
