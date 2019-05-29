@@ -1,0 +1,11 @@
+MST 1:
+Socket Set 1: AX1, AX4, AX2, AX3, AX5
+Cable Needed: 24ft
+Optimal Hub Placement: AX4 (9-15)
+
+MST 2:
+AX10, AX11, AX12, AX99, AX100
+Cable Needed: 23ft
+Optimal Hub Placement: AX99 (8-15)
+
+Total Cable Required: 47ft

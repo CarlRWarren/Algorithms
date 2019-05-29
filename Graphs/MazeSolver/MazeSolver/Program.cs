@@ -19,8 +19,7 @@ namespace MazeSolver
         {
             string path;
             Console.WriteLine("What is the file path?");
-            path = @"C:\Users\Carl\OneDrive - Neumont University\q7\Algorithms\Graphs\TestMazes.txt";
-            //path = Console.ReadLine();
+            path = Console.ReadLine();
             string[] lines = System.IO.File.ReadAllLines(@path);
             List<List<string>> mazes = new List<List<string>>();
             List<string> maze = new List<string>();
