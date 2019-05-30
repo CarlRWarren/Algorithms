@@ -38,7 +38,6 @@ namespace MinSpanTree
             for (int i = 0; i < e; i++)
             {
                 edges[i] = new Edge();
-                Console.WriteLine("Edge added");
             }
         }
 
@@ -78,24 +77,26 @@ namespace MinSpanTree
         // The main function to construct MST using Kruskal's algorithm 
         public void KruskalMST()
         {
+            foreach(var edge in edges)
+            {
+                Console.WriteLine("Source:" + edge.src+"Destination:"+edge.dest);
+            }
             Edge[] result = new Edge[V];  // This will store the resultant MST 
             int e = 0;  // An index variable, used for result[] 
             int i = 0;  // An index variable, used for sorted edges 
             for (i = 0; i < V; i++)
                 result[i] = new Edge();
-
             // Step 1:  Sort all the edges in non-decreasing order of their 
             // weight.  If we are not allowed to change the given graph, we 
             // can create a copy of array of edges 
             Array.Sort(edges);
-
             // Allocate memory for creating V ssubsets 
             Subset[] subsets = new Subset[V];
             for (i = 0; i < V; i++)
                 subsets[i] = new Subset();
 
             // Create V subsets with single elements 
-            for (int v = 0; v < V; ++v)
+            for (int v = 0; v < V; v++)
             {
                 subsets[v].parent = v;
                 subsets[v].rank = 0;
@@ -109,11 +110,15 @@ namespace MinSpanTree
                 // Step 2: Pick the smallest edge. And increment  
                 // the index for next iteration 
                 Edge next_edge = new Edge();
+                if (i == 0)
+                {
+                    next_edge = edges[i++];                    
+                }
                 if (i < e)
                 {
                     next_edge = edges[i++];
                 }
-
+                Console.WriteLine("Source:" + next_edge.src + "Destination:" + next_edge.dest);
                 int x = Find(subsets, next_edge.src);
                 int y = Find(subsets, next_edge.dest);
 
@@ -153,14 +158,40 @@ namespace MinSpanTree
             }
             numberOfEdges /= 2;
             Graph graph = new Graph(ids.Length - 1, numberOfEdges);
-            int socketLength = 0;
-            int connectionLength = 0;
-            foreach(Edge edge in graph.edges)
+            Edge temp;
+            List<Edge> edges = new List<Edge>();
+            List<string> connected = new List<string>();
+            foreach (string[] connection in sockets)
             {
-                //edge.src=
-                //edge.dest=
-                //edge.weight=
+                int index = 1;
+                
+                while (index < connection.Length)
+                {
+                    temp = new Edge();
+                    temp.src = iteratorsToIDs.IndexOf(connection[0]);
+                    string[] destAndWeight = connection[index].Split(':');
+                    temp.dest = iteratorsToIDs.IndexOf(destAndWeight[0]);
+                    temp.weight = int.Parse(destAndWeight[1]);
+                    string verticies = temp.src + "To" + temp.dest;
+                    if (!connected.Contains(verticies))
+                    {
+                        connected.Add(verticies);
+                    }
+                    if (connected.Contains(verticies))
+                    {
+                        verticies = temp.dest + "To" + temp.src;
+                        if (!connected.Contains(verticies))
+                        {
+                            edges.Add(temp);//adds same edge multiple times
+                            connected.Add(verticies);
+                        }
+                    }                    
+                    index++;
+                }
             }
+            //edges.ForEach(o => Console.WriteLine(o.src + "To" + o.dest));
+            graph.edges = edges.ToArray();
+            graph.KruskalMST();
         }
     }
 }
